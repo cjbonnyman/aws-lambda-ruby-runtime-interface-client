@@ -19,19 +19,19 @@ end
 require 'logger'
 
 def log_to_stdout_and_read_fd(event:, context:)
-  logger = Logger.new($stdout)
+  logger = Logger.new($stderr, datetime_format: "%Y-%m-%dT%H:%M:%S.%6N ")
   event['messages'].each { |m| logger.info(m) }
   read_fd('', event)
 end
 
 def log_to_stderr_and_read_fd(event:, context:)
-  logger = Logger.new($stderr)
+  logger = Logger.new($stderr, datetime_format: "%Y-%m-%dT%H:%M:%S.%6N ")
   event['messages'].each { |m| logger.error(m) }
   read_fd('', event)
 end
 
 def log_to_file_and_read_back(event:, context:)
-  logger = Logger.new(event['file_path'])
+  logger = Logger.new(event['file_path'], datetime_format: "%Y-%m-%dT%H:%M:%S.%6N ")
   event['messages'].each { |m| logger.info(m) }
   read_file('', event)
 end
